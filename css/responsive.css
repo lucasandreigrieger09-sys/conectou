@@ -96,8 +96,21 @@
   .hero__content { display: contents; }
 
   .hero__logo    { order: 1; margin-bottom: clamp(0.75rem, 2.5vw, 1.5rem); }
-  .hero__media   { order: 2; justify-self: center; max-width: 620px; margin: 0 0 clamp(1rem, 3vw, 1.75rem); }
-  .hero__title   { order: 3; max-width: 22ch; }
+  /* Recorta o palco vazio acima das cabeças: o container vira a moldura e a
+     foto é ancorada pela base. O arquivo original não é alterado. */
+  .hero__media   {
+    order: 2;
+    justify-self: center;
+    max-width: 620px;
+    margin: 0 0 clamp(1rem, 3vw, 1.75rem);
+    aspect-ratio: 1211 / 1104;
+    overflow: hidden;
+  }
+  .hero__media img { height: 100%; object-fit: cover; object-position: center bottom; }
+  /* 22ch nunca comportava "carreiras e a nossa região.": em qualquer corpo
+     a linha pede ~16.5em e o teto oferecia 12.1em. Teto em px + fonte fluida
+     mantêm as 3 linhas de 320px até 1024px. */
+  .hero__title   { order: 3; max-width: 680px; font-size: clamp(1.05rem, 5.4vw, 2.3rem); }
   .hero__support { order: 4; max-width: 52ch; }
   .hero__chip    { order: 5; }
   .hero__actions { order: 6; }
@@ -106,15 +119,17 @@
   .hero__media img {
     -webkit-mask-image:
       linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%),
-      linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      linear-gradient(180deg, transparent 0%, #000 4%, #000 92%, transparent 100%);
     -webkit-mask-composite: source-in;
             mask-image:
       linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%),
-      linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      linear-gradient(180deg, transparent 0%, #000 4%, #000 92%, transparent 100%);
             mask-composite: intersect;
   }
 
-  .section__head--split { grid-template-columns: 1fr; align-items: start; gap: var(--space-lg); }
+  /* Empilhado, o gap do grid somava aos 24px de margem do título e criava
+     83px contra os 43px das demais seções. Sem gap, o espaçamento fica igual. */
+  .section__head--split { grid-template-columns: 1fr; align-items: start; gap: 0; }
 
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .when__grid { grid-template-columns: 1fr; }
@@ -175,9 +190,11 @@
     pointer-events: none;
   }
 
-  /* Cards de números: última linha centralizada (o de "horas" não fica solto). */
+  /* Cards de números: última linha centralizada (o de "horas" não fica solto)
+     e o conteúdo centralizado dentro do card, que estica para acompanhar
+     a altura do vizinho. */
   .stats { display: flex; flex-wrap: wrap; justify-content: center; }
-  .stats > .stat { flex: 1 1 44%; min-width: 0; }
+  .stats > .stat { flex: 1 1 44%; min-width: 0; justify-content: center; }
 
   /* Local e trilhas centralizados. */
   .venue { text-align: center; }
@@ -187,6 +204,11 @@
 
   /* O link do WhatsApp fica sempre na linha de baixo. */
   .tickets__note-q { display: block; }
+
+  /* Títulos em 3 linhas no celular.
+     Hero: uma linha por frase. Manifesto: duas linhas na primeira frase,
+     uma na segunda. O corpo acompanha a largura disponível. */
+  .manifesto__title { font-size: clamp(0.9rem, 4.95vw, 2rem); max-width: none; }
   /* Selo em duas linhas: data em cima, local embaixo (sem separador solto). */
   .hero__chip {
     flex-direction: column;
@@ -229,11 +251,8 @@
 
   .hero__chip { font-size: 0.6875rem; padding: 0.7rem 1rem; }
 
-  .stats { grid-template-columns: 1fr; }
-  .stat { flex-direction: row; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 0.75rem; text-align: left; }
-  .stat__label { order: 1; flex: 1 1 100%; }
-  .stat__value { order: 2; font-size: 2.5rem; }
-  .stat__note  { order: 3; }
+  .stats > .stat { flex-basis: 100%; }
+  .stat__value { font-size: 2.5rem; }
 
   .speaker__index { font-size: 2.75rem; }
   .speaker__name { padding-right: 2.75rem; }
