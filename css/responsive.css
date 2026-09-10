@@ -22,6 +22,9 @@
 @media (max-width: 1100px) {
   .menu-toggle { display: flex; }
   .nav__item--ticket { display: block; }
+  /* O menu vira off-canvas (fora do fluxo), então as ações precisam
+     recuperar o empurrão para a direita. */
+  .nav + .site-header__actions { margin-left: auto; }
 
   .nav {
     position: fixed;
@@ -148,10 +151,42 @@
     --gutter: 1.25rem;
   }
 
-  .hero { padding-top: calc(var(--header-h) + 1.5rem); }
-  .hero__logo  { width: clamp(200px, 58vw, 300px); }
-  .hero__media { max-width: 100%; }
-  .hero__title { max-width: none; }
+  /* O espaço do header é reservado só no .hero__inner — somar nos dois
+     criava 180px de vazio acima da logo. */
+  .hero { padding-top: 0; }
+  .hero__inner { padding-block: calc(var(--header-h) + 1rem) 0; }
+  .hero__logo  { width: clamp(200px, 58vw, 300px); margin-bottom: clamp(0.5rem, 2vw, 0.85rem); }
+  .hero__media { max-width: 100%; margin-bottom: 0; }
+  /* O título sobe por cima da foto, na altura das pernas. */
+  .hero__title {
+    max-width: none;
+    position: relative;
+    z-index: 1;
+    margin-top: clamp(-6.5rem, -20vw, -3.5rem);
+  }
+  /* Véu escuro sobre a base da foto: as pernas continuam visíveis e o
+     título sobreposto fica legível. */
+  .hero__media::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 34%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.8) 100%);
+    pointer-events: none;
+  }
+
+  /* Cards de números: última linha centralizada (o de "horas" não fica solto). */
+  .stats { display: flex; flex-wrap: wrap; justify-content: center; }
+  .stats > .stat { flex: 1 1 44%; min-width: 0; }
+
+  /* Local e trilhas centralizados. */
+  .venue { text-align: center; }
+  .venue .btn { display: inline-flex; }
+  .trails .section__head--split { text-align: center; }
+  .trails .section__lead { margin-inline: auto; }
+
+  /* O link do WhatsApp fica sempre na linha de baixo. */
+  .tickets__note-q { display: block; }
   /* Selo em duas linhas: data em cima, local embaixo (sem separador solto). */
   .hero__chip {
     flex-direction: column;
