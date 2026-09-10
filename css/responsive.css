@@ -1,0 +1,249 @@
+/* =========================================================
+   CONECTOWN 2026 — responsive.css
+   Breakpoints validados: 1440 / 1280 / 1024 / 768 / 430 / 390 / 375
+   ========================================================= */
+
+/* ---------- ≤ 1440px ---------- */
+@media (max-width: 1440px) {
+  :root { --container: 1240px; }
+}
+
+/* ---------- ≤ 1280px ---------- */
+@media (max-width: 1280px) {
+  :root {
+    --container: 1120px;
+    --section-y: clamp(4rem, 8vw, 7rem);
+  }
+  .nav__list { gap: 1.1rem; }
+  .nav__link { font-size: 0.8125rem; }
+}
+
+/* ---------- ≤ 1100px : menu mobile assume ---------- */
+@media (max-width: 1100px) {
+  .menu-toggle { display: flex; }
+  .nav__item--ticket { display: block; }
+
+  .nav {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: 95;
+    width: min(400px, 86vw);
+    margin: 0;
+    padding: calc(var(--header-h-sm) + 2.5rem) var(--gutter) 2.5rem;
+    background: #0A0A0A;
+    border-left: 1px solid var(--line);
+    box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition:
+      transform 420ms var(--ease-out),
+      visibility 0s linear 420ms;
+    overflow-y: auto;
+  }
+  .nav.is-open {
+    transform: none;
+    visibility: visible;
+    transition: transform 420ms var(--ease-out), visibility 0s;
+  }
+
+  .nav__list { flex-direction: column; align-items: stretch; gap: 0; }
+  .nav__list li { border-bottom: 1px solid var(--line-soft); }
+  .nav__link {
+    display: block;
+    padding: 1.15rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: #fff;
+  }
+  .nav__link::after { display: none; }
+  .nav__link.is-active { color: var(--pink); }
+
+  .nav.is-open .nav__list li { animation: nav-item-in 460ms var(--ease-out) backwards; }
+  .nav.is-open .nav__list li:nth-child(1) { animation-delay: 80ms; }
+  .nav.is-open .nav__list li:nth-child(2) { animation-delay: 130ms; }
+  .nav.is-open .nav__list li:nth-child(3) { animation-delay: 180ms; }
+  .nav.is-open .nav__list li:nth-child(4) { animation-delay: 230ms; }
+  .nav.is-open .nav__list li:nth-child(5) { animation-delay: 280ms; }
+  .nav.is-open .nav__list li:nth-child(6) { animation-delay: 330ms; }
+  @keyframes nav-item-in {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* ---------- ≤ 1024px (tablet) ---------- */
+@media (max-width: 1024px) {
+  :root { --header-h: 76px; --header-h-sm: 62px; }
+
+  /* Hero empilha na ordem do layout aprovado: logo, foto, título, selo, botão.
+     `display: contents` promove os filhos de .hero__content a itens do grid,
+     permitindo intercalar a foto entre eles. */
+  .hero__inner {
+    grid-template-columns: 1fr;
+    padding-inline: var(--gutter);
+    gap: 0;
+    min-height: 0;
+    justify-items: center;
+    text-align: center;
+    /* reserva o espaço do header fixo no layout empilhado */
+    padding-block: calc(var(--header-h) + clamp(1rem, 3vw, 2rem)) 0;
+  }
+  .hero__content { display: contents; }
+
+  .hero__logo    { order: 1; margin-bottom: clamp(0.75rem, 2.5vw, 1.5rem); }
+  .hero__media   { order: 2; justify-self: center; max-width: 620px; margin: 0 0 clamp(1rem, 3vw, 1.75rem); }
+  .hero__title   { order: 3; max-width: 22ch; }
+  .hero__support { order: 4; max-width: 52ch; }
+  .hero__chip    { order: 5; }
+  .hero__actions { order: 6; }
+
+  /* Foto centralizada: máscara simétrica nas laterais. */
+  .hero__media img {
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+            mask-image:
+      linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+            mask-composite: intersect;
+  }
+
+  .section__head--split { grid-template-columns: 1fr; align-items: start; gap: var(--space-lg); }
+
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .when__grid { grid-template-columns: 1fr; }
+
+  .speaker__inner,
+  .speaker--alt .speaker__inner { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: var(--space-lg); }
+
+  .trails__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trail--cta { grid-column: 1 / -1; }
+
+  .tickets__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ticket--pack { grid-column: 1 / -1; }
+
+  .site-footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- ≤ 900px ---------- */
+@media (max-width: 900px) {
+  .manifesto__grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+
+  .speaker__inner,
+  .speaker--alt .speaker__inner { grid-template-columns: 1fr; gap: var(--space-lg); }
+  .speaker--alt .speaker__media { order: 1; }
+  .speaker--alt .speaker__body  { order: 2; }
+  .speaker__media { aspect-ratio: 3 / 4; max-height: 62vh; }
+  .speaker__index { position: absolute; top: -0.15em; right: 0; margin: 0; }
+  .speaker__name { padding-right: 3.5rem; }
+}
+
+/* ---------- ≤ 768px (mobile) ---------- */
+@media (max-width: 768px) {
+  :root {
+    --section-y: clamp(3.5rem, 12vw, 5rem);
+    --gutter: 1.25rem;
+  }
+
+  .hero { padding-top: calc(var(--header-h) + 1.5rem); }
+  .hero__logo  { width: clamp(200px, 58vw, 300px); }
+  .hero__media { max-width: 100%; }
+  .hero__title { max-width: none; }
+  /* Selo em duas linhas: data em cima, local embaixo (sem separador solto). */
+  .hero__chip {
+    flex-direction: column;
+    gap: 0.15rem;
+    white-space: normal;
+  }
+  .hero__chip-sep { display: none; }
+  .hero__actions { width: 100%; }
+  .hero__actions .btn { width: 100%; }
+
+  .stat { padding: 1.25rem; }
+
+  .countdown__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+
+  .map { aspect-ratio: 4 / 3; }
+
+  .speaker__media { aspect-ratio: 4 / 5; max-height: none; }
+  .speaker__links a { padding: 0.65rem 1.1rem; }
+
+  .trails__grid { grid-template-columns: 1fr; }
+  .trail--cta .btn { align-self: stretch; }
+
+  .tickets__grid { grid-template-columns: 1fr; }
+  .ticket--pack { grid-column: auto; }
+
+  .logo-grid > li { flex-basis: 42%; }
+
+  .site-footer__inner { grid-template-columns: 1fr; gap: var(--space-lg); }
+  .site-footer__bottom-inner { flex-direction: column; gap: 0.35rem; }
+
+  .wa-float { width: 54px; height: 54px; right: 1rem; bottom: 1rem; }
+}
+
+/* ---------- ≤ 430px ---------- */
+@media (max-width: 430px) {
+  :root { --gutter: 1.125rem; }
+
+  .brand__logo { height: 30px; }
+  .site-header__actions .btn--sm { padding: 0.6rem 0.9rem; font-size: 0.8125rem; }
+
+  .hero__chip { font-size: 0.6875rem; padding: 0.7rem 1rem; }
+
+  .stats { grid-template-columns: 1fr; }
+  .stat { flex-direction: row; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 0.75rem; text-align: left; }
+  .stat__label { order: 1; flex: 1 1 100%; }
+  .stat__value { order: 2; font-size: 2.5rem; }
+  .stat__note  { order: 3; }
+
+  .speaker__index { font-size: 2.75rem; }
+  .speaker__name { padding-right: 2.75rem; }
+
+  .logo-grid { gap: 0.6rem; }
+  .logo-grid > li { flex-basis: 42%; }
+  .logo-chip { padding: 0.85rem; }
+
+  .ticket__features li { font-size: 0.875rem; }
+  .ticket__flag { font-size: 0.625rem; letter-spacing: 0.06em; padding: 0.4rem 0.75rem; }
+}
+
+/* ---------- ≤ 390px ---------- */
+@media (max-width: 390px) {
+  .brand__logo { height: 28px; }
+  .countdown__num { font-size: 2rem; }
+  .ticket__price { font-size: 2.5rem; }
+  .when__date { font-size: clamp(3rem, 20vw, 4.5rem); }
+  .btn--grad, .btn--primary { font-size: 1.125rem; }
+}
+
+/* ---------- ≤ 375px ---------- */
+@media (max-width: 375px) {
+  :root { --gutter: 1rem; }
+  .brand__logo { height: 26px; }
+  .site-header__actions { gap: 0.5rem; }
+  .site-header__actions .btn--sm { padding: 0.55rem 0.75rem; }
+  .speaker__name { font-size: 1.5rem; }
+  .logo-grid > li { flex-basis: 100%; max-width: none; }
+}
+
+/* ---------- Telas largas ---------- */
+@media (min-width: 1600px) {
+  :root { --container: 1520px; }
+}
+
+/* ---------- Ponteiro grosso (touch): sem hover ---------- */
+@media (hover: none) {
+  .btn:hover { transform: none; }
+  .trail:hover, .ticket:hover, .logo-chip:hover { transform: none; box-shadow: none; }
+}
+
+/* ---------- Impressão ---------- */
+@media print {
+  .site-header, .wa-float, .menu-backdrop, .map { display: none !important; }
+  body, .section--dark, .hero { background: #fff !important; color: #000 !important; }
+  .hero__logo, .site-footer__logo, .brand__logo { filter: none !important; }
+}
