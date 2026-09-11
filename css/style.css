@@ -893,8 +893,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   gap: var(--space-md);
 }
 .trail--cta::before { display: none; }
-.trail--cta .trail__title { color: #000; }
-.trail--cta .trail__desc { color: rgba(0,0,0,0.82); }
+.trail--cta .trail__title { color: #fff; }
+.trail--cta .trail__desc { color: rgba(255,255,255,0.92); }
 .trail--cta .btn { align-self: flex-start; background: #000; color: #fff; border-color: #000; }
 .trail--cta .btn:hover { background: #fff; color: #000; border-color: #fff; }
 
@@ -936,7 +936,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: #000;
+  color: #fff;
   background: var(--grad);
   border-radius: var(--radius-pill);
   padding: 0.45rem 1rem;

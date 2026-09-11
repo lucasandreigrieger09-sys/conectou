@@ -51,8 +51,10 @@ python3 -m http.server 8000
    Substituir `assets/speakers/goda-kaciusiene.png` por uma fotografia quando houver.
 7. **Rodapé** — CNPJ, endereço da organização e redes sociais oficiais do evento
    não constavam no site anterior; adicionar em `.site-footer__contact` quando definidos.
-8. **Lotes de ingresso** — o lote atual é "Lançamento, 31/08 a 10/09".
-   Após essa janela, atualizar valores e o texto de `.ticket__flag`.
+8. **Lotes de ingresso** — o lote atual é "1º lote, 11/09 a 10/10":
+   R$ 260,00 associado ACISAP, R$ 325,00 público geral. O pack de empresas
+   não muda por lote (R$ 240,00 e R$ 305,00 por unidade, mínimo 10).
+   Após 10/10, atualizar valores e o texto de `.ticket__flag`.
 9. **Seções removidas a pedido** — Programação 2026, faixa rosa de CTA e o
    bloco final "Conhecimento global. Resultado local." foram retirados do HTML.
 
@@ -80,9 +82,11 @@ foto à direita); **≤1024px** = empilhado na ordem logo → foto → título �
   como nos mockups. O arquivo não foi editado.
 - **Contraste**: branco sobre o gradiente rende ~3.4:1. Os botões grandes usam
   corpo ≥19px em peso 700 e passam como texto grande (AA 3:1). Os selos pequenos
-  (`.ticket__flag`) usam texto preto (5.3:1). As pílulas `btn--sm` do header e do
-  rodapé usam **texto branco por decisão de design** e ficam em 3.43:1 — abaixo do
-  AA para texto pequeno.
+  (`.ticket__flag`) e o texto do card `.trail--cta` usam **branco por decisão de
+  design** e ficam entre 3.43:1 (ponta rosa) e 3.98:1 (ponta vermelha). O título
+  do `.trail--cta` passa como texto grande (AA 3:1); o selo e o parágrafo ficam
+  abaixo do AA para texto pequeno. Mesma decisão das pílulas `btn--sm` do header
+  e do rodapé.
 - **Patrocinadores × Apoio**: patrocinadores são Sicredi, Sulnet, Viasoft Pay,
   Líder, Ambev/Steffen e Grupo RBS (grade `.logo-grid--lead`, chips maiores).
   Os demais logos ficam em "Apoio".
