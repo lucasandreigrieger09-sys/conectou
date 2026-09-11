@@ -13,7 +13,7 @@ css/style.css        sistema visual (tokens, componentes, reveal)
 css/responsive.css   breakpoints 1440 / 1280 / 1024 / 768 / 430 / 390 / 375
 js/main.js           header, menu, scrollspy, countdown, acordeão, WhatsApp
 js/animations.js     reveal on scroll, entrada do hero, contadores, parallax
-assets/brand/        logo e elementos gráficos 3D (originais, sem alteração)
+assets/brand/        logo, foto do hero e imagem de compartilhamento
 assets/speakers/     fotografias originais dos speakers (renomeadas, não editadas)
 assets/logos/        logos de realização e apoio
 Ref/                 auditoria e material do site anterior (intocado)
@@ -65,7 +65,7 @@ Baseada nos mockups aprovados em `Ref/mockups/`.
 | Tipografia | Montserrat (300 a 900) |
 | Texto corpo | `#B5B5B5` · auxiliar `#8A8A8A` |
 | Botões | pílula (`border-radius: 999px`) com gradiente |
-| Foto do hero | `assets/brand/hero-speakers.png` (1211×1299) |
+| Foto do hero | `assets/brand/hero-speakers.webp` (1129×1212, com variante de 708px) |
 
 Ordem do hero: **desktop** = duas colunas (logo, selo, título e botão à esquerda;
 foto à direita); **≤1024px** = empilhado na ordem logo → foto → título → selo → botão.
@@ -91,3 +91,13 @@ foto à direita); **≤1024px** = empilhado na ordem logo → foto → título �
   nunca deixa uma seção em branco. `prefers-reduced-motion: reduce` desliga tudo.
 - **Fontes**: Montserrat via Google Fonts (`<link>`, sem JS), com fallback para a
   stack do sistema.
+- **Imagens**: tudo em WebP, gerado com `cwebp` a partir dos PNG/JPEG originais
+  (preservados no histórico do git, no commit `70c02b8`). Cada arquivo foi
+  encodado no tamanho real de exibição e testado em modo com perda e sem perda,
+  ficando com o menor dos dois — logos chapados costumam vencer em *lossless*,
+  fotografias em `-q 68..82`. `assets/` caiu de 2,8 MB para 508 KB.
+  Duas exceções ficam fora do WebP de propósito:
+  `brand-conectown.png` (og:image — os crawlers do X e do LinkedIn não leem WebP)
+  e `favicon.png` (o Safari é instável com favicon em WebP).
+- **Pendência conhecida**: o `og:image` é retrato (800×1196). Cards de link do
+  WhatsApp, LinkedIn e X esperam 1200×630; hoje a imagem é cortada na pré-visualização.
