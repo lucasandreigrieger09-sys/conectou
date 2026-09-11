@@ -9,13 +9,15 @@ Base de conteúdo e decisões: [`Ref/ANALISE-CONECTOWN-2026.md`](Ref/ANALISE-CON
 
 ```
 index.html
-css/style.css        sistema visual (tokens, componentes, reveal)
-css/responsive.css   breakpoints 1440 / 1280 / 1024 / 768 / 430 / 390 / 375
+css/style.css        sistema visual (tokens, componentes, reveal) + responsivo
+                     no fim do arquivo, sob o banner RESPONSIVO
+                     breakpoints 1440 / 1280 / 1100 / 1024 / 900 / 768 / 430 / 390 / 375
 js/main.js           header, menu, scrollspy, countdown, acordeão, WhatsApp
 js/animations.js     reveal on scroll, entrada do hero, contadores, parallax
 assets/brand/        logo, foto do hero e imagem de compartilhamento
 assets/speakers/     fotografias originais dos speakers (renomeadas, não editadas)
 assets/logos/        logos de realização e apoio
+assets/fonts/        Montserrat variável (woff2), servido pelo próprio domínio
 Ref/                 auditoria e material do site anterior (intocado)
 ```
 
@@ -89,8 +91,20 @@ foto à direita); **≤1024px** = empilhado na ordem logo → foto → título �
 - **Animações**: o conteúdo é visível por padrão. Os estados iniciais só são aplicados
   se `IntersectionObserver` existir (classe `js-anim` no `<html>`), então falha de JS
   nunca deixa uma seção em branco. `prefers-reduced-motion: reduce` desliga tudo.
-- **Fontes**: Montserrat via Google Fonts (`<link>`, sem JS), com fallback para a
-  stack do sistema.
+- **Fontes**: Montserrat **variável**, servido pelo próprio domínio
+  (`assets/fonts/montserrat-var.woff2`, 34 KB, subset latin, eixo 400–800).
+  Um arquivo cobre os cinco pesos; os cinco estáticos equivalentes somam 173 KB.
+  O Google Fonts saiu do caminho crítico: eram duas conexões novas
+  (`fonts.googleapis.com` e depois `fonts.gstatic.com`) e ~750 ms de bloqueio
+  antes do primeiro pixel. Hoje a página **não faz nenhuma requisição de terceiros**
+  para renderizar — o único terceiro é o iframe do mapa, que é `loading="lazy"`.
+  O arquivo é pré-carregado com `<link rel="preload" as="font" crossorigin>`;
+  o `crossorigin` é obrigatório mesmo sendo o mesmo domínio, porque fontes são
+  sempre buscadas em modo CORS — sem ele o navegador baixa o arquivo duas vezes.
+- **Uma folha de estilo só**: `responsive.css` foi anexado ao fim de `style.css`.
+  Eram duas requisições em série bloqueando a primeira pintura, e a segunda
+  esperava ~450 ms só por estar atrás da primeira. A ordem da cascata é idêntica
+  à de antes, porque o arquivo antigo era 100% blocos `@media`.
 - **Imagens**: tudo em WebP, gerado com `cwebp` a partir dos PNG/JPEG originais
   (preservados no histórico do git, no commit `70c02b8`). Cada arquivo foi
   encodado no tamanho real de exibição e testado em modo com perda e sem perda,
