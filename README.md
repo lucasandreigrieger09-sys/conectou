@@ -101,6 +101,16 @@ foto à direita); **≤1024px** = empilhado na ordem logo → foto → título �
   O arquivo é pré-carregado com `<link rel="preload" as="font" crossorigin>`;
   o `crossorigin` é obrigatório mesmo sendo o mesmo domínio, porque fontes são
   sempre buscadas em modo CORS — sem ele o navegador baixa o arquivo duas vezes.
+- **URLs de css/js são versionadas** (`style.css?v=<hash>`) e os cabeçalhos
+  mandam revalidar sempre. Isso existe por causa de um bug real: quando
+  `responsive.css` virou parte de `style.css`, quem tinha o `style.css` antigo
+  em cache (`max-age=3600`) passou a receber o HTML novo — que não pede mais o
+  `responsive.css` — junto da folha velha, que não tinha a parte responsiva.
+  Resultado: o site abria sem nenhuma regra de mobile. Trocar só o cabeçalho não
+  conserta caches já envenenados, porque o navegador nem pergunta enquanto a
+  cópia estiver fresca; só uma URL diferente força a busca.
+  **Ao mexer em `css/style.css`, `js/main.js` ou `js/animations.js`, atualize o
+  `?v=` do `<link>`/`<script>` correspondente em `index.html`.**
 - **Uma folha de estilo só**: `responsive.css` foi anexado ao fim de `style.css`.
   Eram duas requisições em série bloqueando a primeira pintura, e a segunda
   esperava ~450 ms só por estar atrás da primeira. A ordem da cascata é idêntica
