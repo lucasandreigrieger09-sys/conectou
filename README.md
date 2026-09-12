@@ -74,6 +74,12 @@ Baseada nos mockups aprovados em `Ref/mockups/`.
 Ordem do hero: **desktop** = duas colunas (logo, selo, título e botão à esquerda;
 foto à direita); **≤1024px** = empilhado na ordem logo → foto → título → selo → botão.
 
+A **ordem de entrada** da animação segue o `data-hero-step` no HTML e é a mesma nos
+dois layouts: logo (120 ms) → foto (250 ms) → título (380 ms) → frase de apoio
+(510 ms) → data e local (640 ms) → botão (770 ms). O passo é de 130 ms e cada
+elemento leva 700 ms para completar a transição. Não há exceção no JS: quem manda
+é o atributo.
+
 ## Notas técnicas
 
 - **Logo preservado**: `assets/brand/logo-conectown.png` é o arquivo original

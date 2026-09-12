@@ -69,14 +69,13 @@
       return;
     }
 
+    // A ordem vem inteira do data-hero-step no HTML, sem exceções:
+    // logo -> foto -> título -> apoio -> data -> botão.
     steps.forEach(function (step) {
       var order = parseInt(step.getAttribute('data-hero-step'), 10) || 1;
-      // headline entra logo após o eyebrow; o resto segue em cascata
       var delay = 120 + (order - 1) * 130;
       setTimeout(function () { step.classList.add('is-in'); }, delay);
     });
-
-    if (title) setTimeout(function () { title.classList.add('is-in'); }, 240);
   }
 
   /* ---------------------------------------------------------
