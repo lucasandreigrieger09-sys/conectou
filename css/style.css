@@ -729,7 +729,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   transition: transform var(--t-slow) var(--ease-out);
 }
 .speaker__media--anderson img { object-position: 28% center; }
-.speaker__media--cesar img    { object-position: 62% center; }
 .speaker:hover .speaker__media img,
 .speaker:focus-within .speaker__media img { transform: scale(1.06); }
 

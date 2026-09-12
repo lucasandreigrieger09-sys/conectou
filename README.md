@@ -47,30 +47,33 @@ python3 -m http.server 8000
    outra pessoa (perfis de Fernando Camera / iFood) e não foram reaproveitados.
    5b. **Foto do hero** — `hero-speakers.png` mostra 5 pessoas. Confirmar se são os
    speakers confirmados e se a arte deve ser atualizada a cada novo anúncio.
-6. **Fotos da Goda Kaciusiene e do César Saut** — as duas únicas que ficam visivelmente
-   ruins, e o motivo é a resolução de origem, não a compressão.
-   A caixa `.speaker__media` pinta ~343 CSS px; num celular 3x isso são 1029 px reais.
-   Ampliação de cada foto nesse cenário:
+6. **Fotos dos speakers** — resolvido em 12/09/2026. A caixa `.speaker__media`
+   pinta ~343 CSS px; num celular 3x isso são 1029 px reais. Ampliação atual:
 
-   | foto | fonte | recorte usado (4:5) | ampliação |
+   | foto | fonte | ampliação 3x | peso |
    |---|---|---|---|
-   | Fernando | 1030×1401 | 1030×1288 | 1,00x |
-   | Juan Pablo | 683×1024 | 683×854 | 1,51x |
-   | Anderson | 760×834 | 667×834 | 1,54x |
-   | **César** | 760×541 | **433×541** | **2,38x** |
-   | **Goda** | 360×496 | 360×450 | **2,86x** |
+   | Fernando | 1030×1401 | 1,00x | 32 KB |
+   | César | 924×1383 | 1,11x | 30 KB |
+   | Goda | 860×1185 | 1,20x | 59 KB |
+   | Juan Pablo | 683×1024 | 1,51x | 33 KB |
+   | Anderson | 760×834 | 1,54x | 92 KB |
 
-   - **Goda**: o original é uma captura de tela em PNG **indexado de 256 cores**.
-     Comparado lado a lado no tamanho de exibição, o webp publicado é indistinguível
-     do PNG de origem — aumentar a qualidade só gastaria bytes. Só uma foto nova resolve.
-   - **César**: o arquivo nunca passou pela otimização (hash idêntico desde o commit
-     inicial). Ele já chegou ao projeto como um WebP com perda de 10 KB para 760×541,
-     cerca de 0,2 bit por pixel, quando uma foto decente usa 1 a 2. Pior: é **paisagem**
-     dentro de uma caixa retrato 4:5, então o `object-fit: cover` descarta 43% da largura.
+   As fotos antigas da Goda (captura de tela 360×496 em 256 cores) e do César
+   (WebP de 10 KB para 760×541, ~0,2 bit por pixel, e em paisagem dentro de uma
+   moldura retrato) foram substituídas por originais em retrato e alta resolução.
+   O `object-position: 62% center` que existia só para o César saiu junto: ele
+   servia para centralizar o rosto na foto em paisagem e perdeu a função.
 
-   **O que pedir ao cliente**: retrato, proporção 4:5, mínimo 1030×1288 px
-   (ideal 1200×1500), JPEG ou PNG em cor plena. Não serve captura de tela nem imagem
-   salva de página web.
+   O Anderson ainda tem folga — a fonte tem 934 px e publicamos 760. Subir custaria
+   +43 KB para ir de 1,54x a 1,25x; não foi feito.
+
+   **Originais ficam em `originais/speakers/`**, versionados no git e fora do deploy
+   (`.vercelignore`). Foi a falta desses arquivos que impediu um reencode sem pedir
+   tudo de novo ao cliente.
+
+   **O que pedir para fotos novas**: retrato, proporção 4:5, mínimo 1030×1288 px,
+   JPEG ou PNG em cor plena. Não serve captura de tela nem imagem salva de página web.
+
 7. **Rodapé** — CNPJ, endereço da organização e redes sociais oficiais do evento
    não constavam no site anterior; adicionar em `.site-footer__contact` quando definidos.
 8. **Lotes de ingresso** — o lote atual é "1º lote, 11/09 a 10/10":
