@@ -47,8 +47,30 @@ python3 -m http.server 8000
    outra pessoa (perfis de Fernando Camera / iFood) e não foram reaproveitados.
    5b. **Foto do hero** — `hero-speakers.png` mostra 5 pessoas. Confirmar se são os
    speakers confirmados e se a arte deve ser atualizada a cada novo anúncio.
-6. **Foto da Goda Kaciusiene** — o arquivo original é uma captura de tela (360×496).
-   Substituir `assets/speakers/goda-kaciusiene.png` por uma fotografia quando houver.
+6. **Fotos da Goda Kaciusiene e do César Saut** — as duas únicas que ficam visivelmente
+   ruins, e o motivo é a resolução de origem, não a compressão.
+   A caixa `.speaker__media` pinta ~343 CSS px; num celular 3x isso são 1029 px reais.
+   Ampliação de cada foto nesse cenário:
+
+   | foto | fonte | recorte usado (4:5) | ampliação |
+   |---|---|---|---|
+   | Fernando | 1030×1401 | 1030×1288 | 1,00x |
+   | Juan Pablo | 683×1024 | 683×854 | 1,51x |
+   | Anderson | 760×834 | 667×834 | 1,54x |
+   | **César** | 760×541 | **433×541** | **2,38x** |
+   | **Goda** | 360×496 | 360×450 | **2,86x** |
+
+   - **Goda**: o original é uma captura de tela em PNG **indexado de 256 cores**.
+     Comparado lado a lado no tamanho de exibição, o webp publicado é indistinguível
+     do PNG de origem — aumentar a qualidade só gastaria bytes. Só uma foto nova resolve.
+   - **César**: o arquivo nunca passou pela otimização (hash idêntico desde o commit
+     inicial). Ele já chegou ao projeto como um WebP com perda de 10 KB para 760×541,
+     cerca de 0,2 bit por pixel, quando uma foto decente usa 1 a 2. Pior: é **paisagem**
+     dentro de uma caixa retrato 4:5, então o `object-fit: cover` descarta 43% da largura.
+
+   **O que pedir ao cliente**: retrato, proporção 4:5, mínimo 1030×1288 px
+   (ideal 1200×1500), JPEG ou PNG em cor plena. Não serve captura de tela nem imagem
+   salva de página web.
 7. **Rodapé** — CNPJ, endereço da organização e redes sociais oficiais do evento
    não constavam no site anterior; adicionar em `.site-footer__contact` quando definidos.
 8. **Lotes de ingresso** — o lote atual é "1º lote, 11/09 a 10/10":
@@ -111,6 +133,11 @@ elemento leva 700 ms para completar a transição. Não há exceção no JS: que
   O arquivo é pré-carregado com `<link rel="preload" as="font" crossorigin>`;
   o `crossorigin` é obrigatório mesmo sendo o mesmo domínio, porque fontes são
   sempre buscadas em modo CORS — sem ele o navegador baixa o arquivo duas vezes.
+- **Arquivos em `assets/` nunca mudam de conteúdo no mesmo nome.** O cabeçalho é
+  `immutable` por um ano, então trocar os bytes mantendo a URL deixaria quem já
+  visitou o site com a versão antiga por 12 meses. Ao publicar uma imagem nova,
+  **mude o nome do arquivo** — é por isso que existe `fernando-schuler-1030.webp`
+  em vez de `fernando-schuler.webp`.
 - **URLs de css/js são versionadas** (`style.css?v=<hash>`) e os cabeçalhos
   mandam revalidar sempre. Isso existe por causa de um bug real: quando
   `responsive.css` virou parte de `style.css`, quem tinha o `style.css` antigo
